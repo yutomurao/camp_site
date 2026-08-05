@@ -1,1 +1,372 @@
-test
+[slides]
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天川村オートキャンプとちお 2026</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=M+PLUS+Rounded+1c:wght@700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* 1. 基本設定 */
+        * { box-sizing: border-box; }
+        body {
+            background-color: #f0f2ee;
+            display: grid;
+            gap: 40px;
+            grid-template-columns: 1fr;
+            margin: 0;
+            padding: 40px 0;
+            place-items: center;
+        }
+
+        .slide-container {
+            width: 1280px;
+            height: 720px;
+            background-color: #ffffff;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 60px;
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* 2. 装飾的な背景デザイン (全スライド共通) */
+        .slide-container::before {
+            content: "";
+            position: absolute;
+            top: 0; right: 0;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(46, 77, 49, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* スライドタイトル */
+        .slide-title {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            font-size: 44px;
+            color: #2E4D31;
+            margin-bottom: 30px;
+            border-left: 10px solid #A67C52;
+            padding-left: 20px;
+            z-index: 1;
+            max-width: 1000px;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            z-index: 1;
+        }
+
+        /* 3. レイアウト用スタイル */
+        .title-layout { text-align: center; }
+        .title-layout h1 { 
+            font-size: 80px; 
+            color: #2E4D31; 
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            margin-bottom: 20px;
+        }
+        .title-layout .subtitle { font-size: 28px; color: #6D7E6E; }
+
+        .section-title-layout { text-align: center; justify-content: center; height: 100%; }
+        .section-title-layout hr { width: 100px; border: 3px solid #A67C52; margin: 30px auto; }
+        .section-title-layout h2 { font-size: 60px; color: #2E4D31; }
+
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+        .two-column.tiled > div { background: #F8F9F7; border-radius: 20px; padding: 40px; border: 1px solid #E2E8E3; }
+        .two-column.tiled h3 { color: #A67C52; margin-top: 0; font-size: 32px; }
+
+        .image-wrapper { border-radius: 20px; overflow: hidden; height: 400px; border: 5px solid #F0F2EE; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        .tiled-content { display: flex; gap: 30px; }
+        .tile { flex: 1; background: #F8F9F7; border-radius: 20px; padding: 30px; text-align: center; border-bottom: 5px solid #2E4D31; }
+        .tile .icon { font-size: 50px; color: #A67C52; margin-bottom: 15px; }
+        .tile h3 { font-size: 24px; margin-bottom: 10px; color: #2E4D31; }
+
+        /* タイムライン */
+        .timeline-layout { display: flex; justify-content: space-between; position: relative; padding-top: 50px; }
+        .timeline-line { position: absolute; top: 120px; left: 0; width: 100%; height: 4px; background: #E2E8E3; z-index: 0; }
+        .timeline-item { width: 18%; position: relative; text-align: center; }
+        .timeline-item::after { content: ""; position: absolute; top: 60px; left: 50%; transform: translateX(-50%); width: 24px; height: 24px; background: #A67C52; border-radius: 50%; z-index: 1; border: 4px solid #FFF; }
+        .timeline-item h3 { color: #2E4D31; font-size: 22px; margin-bottom: 60px; }
+        .timeline-item p { font-size: 16px; color: #555; line-height: 1.4; }
+
+        /* テーブル */
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #2E4D31; color: white; padding: 15px; text-align: left; font-size: 20px; }
+        td { padding: 12px 15px; border-bottom: 1px solid #EEE; font-size: 17px; }
+        tr:nth-child(even) { background: #F9FBF9; }
+
+        /* アイコン付きリスト */
+        .bullet-list ul { list-style: none; padding: 0; }
+        .bullet-list li { position: relative; padding-left: 45px; margin-bottom: 18px; font-size: 20px; }
+        .bullet-list i { position: absolute; left: 0; color: #A67C52; font-size: 24px; }
+
+        /* Bleed Layout */
+        .bleed-image-layout { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; align-items: start; }
+        .bleed-image-layout .content-container { padding: 60px; }
+        .bleed-image-layout .image-container { height: 100%; }
+        .bleed-image-layout img { width: 100%; height: 720px; object-fit: cover; }
+
+        /* ハイライト数値 */
+        .number-box { text-align: center; }
+        .number-box .num { font-size: 120px; font-weight: bold; color: #A67C52; font-family: 'Zen Kaku Gothic New'; line-height: 1; }
+        .number-box .label { font-size: 24px; color: #2E4D31; font-weight: bold; }
+
+        /* Q&A / 連絡先 */
+        .qa-layout { text-align: center; }
+        .qa-layout h2 { font-size: 70px; color: #2E4D31; margin-bottom: 10px; }
+        .qa-layout p { font-size: 24px; color: #666; }
+
+    </style>
+</head>
+<body>
+
+<div class="slide-container full-bg-image" id="slide1" style="background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('http://googleusercontent.com/image_collection/image_retrieval/799284209394195402'); background-size: cover; background-position: center;">
+    <div class="title-layout">
+        <p class="subtitle" style="font-family: 'Zen Kaku Gothic New';">~Nara Prefecture Tenkawa Village Auto Campsite Tochio~</p>
+        <h1>Let's Go Camping!</h1>
+        <p class="subtitle" style="font-weight: bold; color: #2E4D31;">2026.08.15 SAT - 08.16 SUN</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide2">
+    <div class="section-title-layout">
+        <hr>
+        <h2>CAMP活動実施計画</h2>
+        <p style="font-size: 24px; color: #666;">みんなと思いっきり遊んで、最高の思い出を作ろう。</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide3">
+    <h2 class="slide-title">活動の目的</h2>
+    <div class="content-area">
+        <div class="two-column tiled">
+            <div>
+                <h3>目的</h3>
+                <p style="font-size: 22px; line-height: 1.6;">「家族みんなと思いっきり遊んで、最高の思い出を作る」こと。日常を離れ、天川村の大自然の中でリフレッシュしましょう。</p>
+            </div>
+            <div>
+                <h3>実施計画</h3>
+                <p style="font-size: 22px; line-height: 1.6;">第7回目となる今回のキャンプ。これまでの経験を活かし、より安全に、より楽しく活動するための詳細な計画です。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container bleed-image-layout" id="slide4">
+    <div class="content-container">
+        <h2 class="slide-title">目的地・宿泊地</h2>
+        <div class="content-area">
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-map-location-dot"></i><strong>目的地：</strong> 奈良県天川村オートキャンプ場とちお</li>
+                    <li><i class="fa-solid fa-house-chimney"></i><strong>宿泊地：</strong> コテージA（吉野杉の丸太造り）</li>
+                    <li><i class="fa-solid fa-car"></i><strong>交通手段：</strong> 往復とも自家用車にて移動</li>
+                </ul>
+                <p style="margin-top: 30px; color: #666; font-style: italic;">※エメラルドグリーンの清流「天の川」のすぐ横に位置する、自然豊かなキャンプ場です。</p>
+            </div>
+        </div>
+    </div>
+    <div class="image-container">
+        <img src="http://googleusercontent.com/image_collection/image_retrieval/15150554897915238226" alt="キャンプ場のコテージ">
+    </div>
+</div>
+
+<div class="slide-container" id="slide5">
+    <h2 class="slide-title">Day 1: 8月15日(土)</h2>
+    <div class="content-area">
+        <div class="timeline-layout">
+            <div class="timeline-line"></div>
+            <div class="timeline-item">
+                <h3>11:00</h3>
+                <p>自宅出発<br>わくわくの旅開始</p>
+            </div>
+            <div class="timeline-item">
+                <h3>13:00</h3>
+                <p>キャンプ場到着<br>チェックイン</p>
+            </div>
+            <div class="timeline-item">
+                <h3>13:30</h3>
+                <p>川遊び<br>各自自由遊泳</p>
+            </div>
+            <div class="timeline-item">
+                <h3>17:00</h3>
+                <p>夕食BBQ<br>メインイベント</p>
+            </div>
+            <div class="timeline-item">
+                <h3>22:00</h3>
+                <p>消灯<br>おやすみなさい</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide6">
+    <h2 class="slide-title">Day 2: 8月16日(日)</h2>
+    <div class="content-area">
+        <div class="timeline-layout">
+            <div class="timeline-line"></div>
+            <div class="timeline-item">
+                <h3>06:00</h3>
+                <p>起床<br>朝の空気</p>
+            </div>
+            <div class="timeline-item">
+                <h3>07:00</h3>
+                <p>ストレッチ<br>体をほぐす</p>
+            </div>
+            <div class="timeline-item">
+                <h3>08:00</h3>
+                <p>川遊び<br>朝の清流へ</p>
+            </div>
+            <div class="timeline-item">
+                <h3>10:00</h3>
+                <p>キャンプ場出発<br>片付け・撤収</p>
+            </div>
+            <div class="timeline-item">
+                <h3>17:00</h3>
+                <p>帰宅予定<br>お疲れ様でした</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide7">
+    <h2 class="slide-title">参加メンバー (5名)</h2>
+    <div class="content-area">
+        <div class="two-column" style="align-items: center;">
+            <div class="image-wrapper" style="height: 450px; border-radius: 50%;">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/10339053504077234937" alt="天川村の風景">
+            </div>
+            <div class="bullet-list">
+                <ul>
+                    <li><i class="fa-solid fa-user"></i>村尾 義一</li>
+                    <li><i class="fa-solid fa-user"></i>村尾 恵美子</li>
+                    <li><i class="fa-solid fa-user"></i>村尾 翔悟</li>
+                    <li><i class="fa-solid fa-user"></i>村尾 悠翔</li>
+                    <li><i class="fa-solid fa-user"></i>村尾 桃愛</li>
+                </ul>
+                <p style="margin-top: 20px; font-size: 18px; color: #A67C52; font-weight: bold;">※当日体温と氏名の記入を忘れずに！</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide8">
+    <h2 class="slide-title">持ち物: 川遊び・水遊び</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-life-ring"></i></div>
+                <h3>浮具</h3>
+                <p>うきわ、ボート</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-vest"></i></div>
+                <h3>安全装備</h3>
+                <p>ライフジャケット</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-glasses"></i></div>
+                <h3>遊泳具</h3>
+                <p>水着、水中メガネ、水泳帽</p>
+            </div>
+            <div class="tile">
+                <div class="icon"><i class="fa-solid fa-socks"></i></div>
+                <h3>履物</h3>
+                <p>水の中で履く靴</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 40px; color: #666;">※天の川は深い箇所もあるので、ライフジャケットは必須です。</p>
+    </div>
+</div>
+
+<div class="slide-container" id="slide9">
+    <h2 class="slide-title">持ち物: 料理・バーベキュー</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <table>
+                <thead>
+                    <tr><th>食材</th><th>用具</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>お肉、ウインナー</td><td>BBQ網、アルミホイル</td></tr>
+                    <tr><td>おにぎり、キャベツ、かぼちゃ</td><td>炭、着火剤、ライター</td></tr>
+                    <tr><td>たまご、油、焼肉のたれ</td><td>カセットコンロ、ボンベ</td></tr>
+                    <tr><td>パン、マヨネーズ</td><td>フライパン、トング、箸</td></tr>
+                </tbody>
+            </table>
+            <div class="image-wrapper">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/5730643044862058137" alt="BBQイメージ">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide10">
+    <h2 class="slide-title">持ち物: 遊び・衛生用品</h2>
+    <div class="content-area">
+        <div class="two-column">
+            <div class="bullet-list">
+                <h3><i class="fa-solid fa-gamepad" style="position:static; margin-right:10px;"></i>室内外の遊び</h3>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i>UNO、トランプ、ボードゲーム</li>
+                    <li><i class="fa-solid fa-check"></i>将棋、囲碁 (ドラえもん将棋)</li>
+                    <li><i class="fa-solid fa-check"></i>ボール、グローブ、花火、シャボン玉</li>
+                </ul>
+            </div>
+            <div class="bullet-list">
+                <h3><i class="fa-solid fa-soap" style="position:static; margin-right:10px;"></i>洗面・衛生</h3>
+                <ul>
+                    <li><i class="fa-solid fa-check"></i>シャンプー、歯ブラシセット</li>
+                    <li><i class="fa-solid fa-check"></i>タオル、ドライヤー、救急セット</li>
+                    <li><i class="fa-solid fa-check"></i>虫よけスプレー、蚊取り線香、体温計</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide11">
+    <h2 class="slide-title">持ち物: 部屋・外装備</h2>
+    <div class="content-area">
+        <div class="tiled-content">
+            <div class="tile" style="flex: 1.5;">
+                <div class="image-wrapper" style="height: 200px; margin-bottom: 15px;">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/2579325147526296065" alt="キャンプギア">
+                </div>
+                <h3>リビング装備</h3>
+                <p>折りたたみ椅子・机、ランタン、ライト、扇風機、充電器</p>
+            </div>
+            <div class="tile" style="flex: 1.5;">
+                <div class="image-wrapper" style="height: 200px; margin-bottom: 15px;">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/9184386752220935883" alt="寝室イメージ">
+                </div>
+                <h3>寝室・衣類</h3>
+                <p>寝袋、カーペット、着替え、ハンガー、洗濯ばさみ</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="slide-container" id="slide12" style="background-image: linear-gradient(rgba(46, 77, 49, 0.1), rgba(46, 77, 49, 0.1));">
+    <div class="qa-layout">
+        <div class="icon" style="font-size: 80px; color: #A67C52; margin-bottom: 20px;"><i class="fa-solid fa-campground"></i></div>
+        <h2>準備はいい？</h2>
+        <p>※あくまでもこれは予定です。多少のずれがある場合があります。</p>
+        <p style="margin-top: 40px; font-weight: bold; color: #2E4D31;">安全第一で、最高のキャンプにしましょう！</p>
+    </div>
+</div>
+
+</body>
+</html>
+

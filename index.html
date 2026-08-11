@@ -411,5 +411,35 @@
                 </div>
         </section>
     </main>
+
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+      // Firebaseの設定
+      const firebaseConfig = {
+        apiKey: "AIzaSyD4MTVJmxf6i2yUU1BhrefaeRJ9WHB7Yk",
+        authDomain: "camp-2026-bef96.firebaseapp.com",
+        databaseURL: "https://camp-2026-bef96-default-rtdb.firebaseio.com",
+        projectId: "camp-2026-bef96",
+        storageBucket: "camp-2026-bef96.firebasestorage.app",
+        messagingSenderId: "184271204933",
+        appId: "1:184271204933:web:aacfeb64cc5b14044f692c",
+        measurementId: "G-Z60NMXJES2"
+      };
+
+      // Firebaseの初期化
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // script.jsから使えるようにグローバル変数へ設定
+      window.db = database;
+      window.dbRef = ref;
+      window.dbSet = set;
+      window.dbOnValue = onValue;
+    </script>
+
+    <script src="script.js" defer></script>
+
 </body>
 </html>
